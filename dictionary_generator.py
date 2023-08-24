@@ -137,6 +137,26 @@ def generate_freq_dict(file):
                     f"UPDATE pos_freq SET subsample{ind}=? WHERE pos=?", (pos_freq_dict[pos], pos))
 
 
+    for ind, i in enumerate(range(0, 20000, 1000)):
+
+        cur.execute(f"ALTER TABLE word_info ADD COLUMN subsample{ind}")
+
+        cur.execute(f"SELECT lemma FROM word_info LIMIT 1000 OFFSET {ind}")
+
+        word_list = [str(row[0]) for row in cur.fetchall()]
+
+        word_count = [word_list.count(word) for word in word_list]
+
+        word_freq_dict = {word: freq for word, freq in zip(word_list, word_count)}
+
+        for word in word_freq_dict.keys():
+            cur.execute('SELECT * FROM word_info WHERE lemma=?', (word,))
+            row = cur.fetchone()
+            if row:
+                cur.execute(
+                    f"UPDATE word_info SET subsample{ind}=? WHERE lemma=?", (word_freq_dict[word], word))
+
+
 
 
     conn.commit()
