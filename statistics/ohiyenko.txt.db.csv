@@ -1,0 +1,3 @@
+,part_of_speech,absolute_frequency,mean_frequency,relative_frequency,standard_deviation,confidence_interval_2sd,coefficient_of_variation,confidence_interval_2s,coef_of_var,max_coeff_of_var,coefficient_of_stability,relative_error,standard_error
+0,NOUN,4288,214.4,0.21,43.69,"(127.0217418347104, 301.7782581652896)",9.77,"(194.86162749868865, 233.93837250131136)",0.2,4.36,0.95,0.03,10.02
+1,NOUN,3808,190.4,0.19,35.89,"(118.61866537880479, 262.1813346211952)",8.03,"(174.34920562713484, 206.45079437286518)",0.19,4.36,0.96,0.03,8.23
