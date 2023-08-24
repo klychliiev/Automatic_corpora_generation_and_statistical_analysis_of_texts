@@ -5,15 +5,16 @@ import os
 
 nlp = Pipeline(lang='uk', processors='tokenize,pos,lemma,mwt')
 
-DIRECTORY_PATH = 'databases'
+
+DIRECTORY_PATH = 'texts'
 
 
 def generate_dictionary(dir):
 
     for filename in os.listdir(dir):
         file_path = os.path.join(dir, filename)
-        text = open(file_path, 'r', encoding='unicode_escape')
-        text_string = text.read(300000)
+        text = open(file_path, 'r')
+        text_string = text.read(150000)
 
         # прибрати tabs і переноси на новий рядок
 
@@ -45,10 +46,11 @@ def generate_dictionary(dir):
         # кортежі зі списками для бази даних
 
         # data1 = list(zip(range(1, len(word_tokens)+1), word_tokens, numbers))
+
         data2 = list(zip(range(1, len(word_tokens)+1),
                      word_tokens, lemmas, pos_tags, numbers))
 
-        conn = sqlite3.connect(f'databases/{filename}.db')
+        conn = sqlite3.connect(f'db/{filename}.db')
 
         cur = conn.cursor()
 
