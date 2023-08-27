@@ -25,9 +25,9 @@ POS_DICT = {
 }
 
 
-def get_statistics(file):
-        
-    conn = sqlite3.connect(file)
+def get_statistics(dir, database):
+
+    conn = sqlite3.connect(os.path.join(dir, database))
     cur = conn.cursor()
 
     rows = cur.execute("SELECT * FROM pos_freq")
@@ -42,6 +42,7 @@ def get_statistics(file):
         print(data)
 
         pos = row[0]
+
         
         POS_DICT['part_of_speech'].append(pos)
 
@@ -137,24 +138,18 @@ def get_statistics(file):
             POS_DICT['relative_error'].append(0)
 
             print("Relative Error:", relative_error)
+        
+    return POS_DICT
 
-        return POS_DICT
 
 
+if __name__=='__main__':
 
-if __name__=="__main__":
-
-    for file in os.listdir(DIRECTORY_PATH):
-
-        f = os.path.join(DIRECTORY_PATH, file)
-
-        pos_dict = get_statistics(f)
-
-        df = pd.DataFrame(pos_dict)
-
-        df = df.round(2)
-
+    for database in os.listdir(DIRECTORY_PATH):
+        stats_dict = get_statistics(DIRECTORY_PATH, database)
+        df = pd.DataFrame.from_dict(stats_dict)
+        df.round(3)
         print(df)
+        df.to_csv(f'statistics/{database}.csv')
 
-        df.to_csv(f'statistics/{file}.csv')
 
